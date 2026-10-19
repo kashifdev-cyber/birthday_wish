@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#08090e">
+<title>Open When… — For My Brother</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600&display=swap');
+:root{--bg:#08090e;--gold:#d8b36a;--cream:#f6ecd9;--muted:#b9b0a0;--line:rgba(216,179,106,.38);--shadow:0 25px 70px rgba(0,0,0,.45);--serif:"Cormorant Garamond",Georgia,serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at 50% 0,#22202a 0,#0b0c12 42%,#06070b 100%);background-attachment:fixed;color:var(--cream);font-family:Inter,system-ui,sans-serif}
+body.locked{overflow:hidden}
+.wrap{max-width:1100px;margin:auto;padding:24px}
+.eyebrow{letter-spacing:.28em;text-transform:uppercase;font-size:12px;color:var(--gold)}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}.reveal.in{opacity:1;transform:none}
+
+/* gate */
+.gate{position:fixed;inset:0;z-index:50;display:grid;place-items:center;text-align:center;padding:24px;background:radial-gradient(circle at 50% 40%,#2a2430,#07080c 70%);transition:opacity .9s ease,visibility .9s}
+.gate.gone{opacity:0;visibility:hidden}
+.gate .gift{font-size:76px;animation:bob 2.4s ease-in-out infinite;filter:drop-shadow(0 10px 30px rgba(216,179,106,.35))}
+.gate h2{font:italic 600 clamp(34px,7vw,58px)/1.1 var(--serif);margin:18px 0 6px}
+.gate p{color:var(--muted);margin:0 0 6px}
+@keyframes bob{50%{transform:translateY(-12px) rotate(-3deg)}}
+
+/* hero */
+.hero{min-height:100svh;display:grid;place-items:center;padding:50px 0}
+.hero-card{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:26px;background:linear-gradient(145deg,rgba(20,20,29,.93),rgba(8,9,14,.92));box-shadow:var(--shadow);width:min(100%,980px);padding:34px}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:34px;align-items:center}
+h1{font:700 clamp(55px,9vw,104px)/.85 var(--serif);margin:18px 0;color:var(--cream)}h1 span{display:block;color:var(--gold)}
+.lead{font-size:17px;color:var(--muted);max-width:520px;line-height:1.7}
+.btn{display:inline-flex;align-items:center;gap:10px;margin-top:22px;padding:14px 22px;border-radius:999px;border:1px solid var(--line);background:linear-gradient(180deg,#dcb871,#a9823e);color:#101015;font:700 15px Inter,sans-serif;text-decoration:none;cursor:pointer;box-shadow:0 10px 35px rgba(216,179,106,.2);transition:transform .2s}.btn:hover{transform:translateY(-2px)}
+.hero-photo{aspect-ratio:4/5;object-fit:cover;object-position:center top;width:100%;border-radius:18px;border:8px solid #e9d5ad;box-shadow:0 25px 60px rgba(0,0,0,.5);transform:rotate(1.5deg)}
+
+.section{padding:90px 0}.center{text-align:center}
+.section h2{font:700 clamp(40px,6vw,68px)/1 var(--serif);margin:10px 0}
+.section-intro{color:var(--muted);max-width:650px;margin:0 auto 26px;line-height:1.7}
+.progress{display:inline-block;margin-bottom:30px;padding:7px 16px;border:1px solid var(--line);border-radius:999px;font-size:13px;color:var(--gold);letter-spacing:.08em}
+
+/* letters */
+.letters{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.letter{cursor:pointer;min-height:250px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(160deg,#f4e5c6,#c7a86a);color:#17130c;padding:18px;position:relative;overflow:hidden;text-align:left;font-family:inherit;transition:transform .3s,box-shadow .3s}
+.letter:nth-child(even){transform:rotate(1deg)}
+.letter:hover,.letter:focus-visible{transform:translateY(-8px) rotate(-1deg);box-shadow:0 18px 40px rgba(0,0,0,.35);outline:none}
+.letter:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.letter:nth-child(even):hover{transform:translateY(-8px) rotate(0)}
+.letter:before{content:"";position:absolute;left:0;right:0;top:0;height:50%;background:linear-gradient(170deg,rgba(255,255,255,.28),rgba(0,0,0,.06));clip-path:polygon(0 0,100% 0,50% 100%)}
+.seal{font-size:30px;position:relative}
+.letter h3{font:700 28px/1 var(--serif);margin:25px 0 10px;position:relative}
+.letter small{font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.65;position:relative}
+.letter.opened small:after{content:" · opened ✓"}
+.letter.birthday{background:linear-gradient(160deg,#f7dc9b,#c08f2f);box-shadow:0 0 0 1px #fff3 inset,0 0 38px rgba(216,179,106,.35)}
+
+/* gallery */
+.gallery{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;align-items:stretch;margin-top:34px}
+.polaroid{background:#eee3cf;color:#17130c;padding:12px 12px 25px;box-shadow:var(--shadow);transform:rotate(-1deg);cursor:zoom-in;border:0;font:inherit;text-align:left;display:flex;flex-direction:column;transition:transform .3s}
+.polaroid:hover{transform:rotate(0) scale(1.01)}
+.polaroid.r{transform:rotate(1.2deg)}.polaroid.r:hover{transform:rotate(0) scale(1.01)}
+.polaroid img{width:100%;flex:1;min-height:0;max-height:560px;object-fit:cover;object-position:center 20%;display:block}
+.polaroid p{font:600 24px var(--serif);margin:12px 6px 0}
+.gallery-side{display:grid;gap:18px}
+.gallery-side .polaroid img{max-height:300px}
+
+/* quote strip */
+.reasons{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:10px}
+.reason{border:1px solid var(--line);border-radius:18px;padding:26px;background:rgba(255,255,255,.03);text-align:center}
+.reason b{display:block;font:italic 600 26px var(--serif);color:var(--gold);margin-bottom:8px}
+.reason span{color:var(--muted);line-height:1.7;font-size:15px}
+
+/* award */
+.award{border:1px solid var(--line);border-radius:25px;padding:45px 28px;text-align:center;background:linear-gradient(145deg,#111725,#07090e);box-shadow:var(--shadow)}
+.crown{font-size:45px;color:var(--gold)}
+.award h2{margin:10px 0 0}
+.award h3{font:700 clamp(38px,7vw,75px)/.9 var(--serif);color:var(--gold);margin:18px 0}
+.award p{max-width:680px;margin:20px auto;color:var(--muted);line-height:1.8}
+.sign{font:italic 600 28px var(--serif);color:var(--cream)}
+
+footer{text-align:center;color:#80796d;padding:35px 0 55px;font-size:12px}
+.top{position:fixed;right:18px;bottom:18px;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:#11131b;color:var(--gold);display:none;z-index:5;cursor:pointer}
+
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.74);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px;z-index:40}
+.modal.show{display:flex}
+.modal-card{width:min(620px,100%);max-height:90svh;overflow:auto;background:#f3e6ce;color:#19140d;border-radius:22px;padding:30px;box-shadow:0 30px 90px #000;border:7px solid #d7bd89;animation:pop .45s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes pop{from{opacity:0;transform:translateY(40px) scale(.9) rotateX(25deg)}}
+.close{float:right;border:0;background:transparent;font-size:30px;line-height:1;cursor:pointer;color:#19140d}
+#modalEmoji{font-size:34px}
+.modal h3{font:700 clamp(34px,7vw,48px)/1 var(--serif);margin:14px 0 12px}
+.modal p{font:500 20px/1.75 var(--serif);margin:12px 0}
+.modal .ps{font-style:italic;opacity:.8}
+.modal img{width:100%;max-height:300px;object-fit:cover;object-position:center 20%;border-radius:12px;margin-top:10px}
+.lightbox .modal-card{background:#111;border-color:#d7bd89;padding:14px;width:min(560px,100%)}
+.lightbox .close{color:#f6ecd9}.lightbox img{max-height:80svh;margin:0;object-fit:contain}
+
+canvas#confetti{position:fixed;inset:0;pointer-events:none;z-index:60;width:100%;height:100%}
+
+@media(max-width:850px){.hero-grid{grid-template-columns:1fr}.hero-photo{max-height:520px}.letters{grid-template-columns:repeat(2,1fr)}.gallery{grid-template-columns:1fr}.gallery-side{grid-template-columns:1fr 1fr}.reasons{grid-template-columns:1fr}.letter.birthday{grid-column:1/-1}}
+@media(max-width:520px){.wrap{padding:15px}.hero-card{padding:22px}.letters{grid-template-columns:1fr}.letter{min-height:170px}.gallery-side{grid-template-columns:1fr}.section{padding:65px 0}h1{font-size:62px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body class="locked">
+
+<!-- ✏️ EDIT THESE: your names -->
+<script>const CONFIG={brother:"Brother",from:"Your sibling"};</script>
+
+<div class="gate" id="gate">
+  <div>
+    <div class="gift" aria-hidden="true">🎁</div>
+    <h2>Something is waiting for you…</h2>
+    <p>Made with love, just for <span class="brotherName">Brother</span>.</p>
+    <button class="btn" id="enter">Tap to open ✨</button>
+  </div>
+</div>
+
+<main id="top">
+<section class="hero"><div class="wrap"><div class="hero-card"><div class="hero-grid">
+  <div>
+    <div class="eyebrow">A little something for every kind of day</div>
+    <h1>For My <span>Brother ♥</span></h1>
+    <p class="lead">Some letters for the days when you need a smile, a little motivation, a reminder that you're appreciated — and, of course, your birthday.</p>
+    <a class="btn" href="#letters">Open your letters →</a>
+  </div>
+  <img class="hero-photo" src="images/Front.jpeg" alt="Portrait of my brother in a dark suit in an elegant lobby">
+</div></div></div></section>
+
+<section class="section" id="letters"><div class="wrap">
+  <div class="center reveal">
+    <div class="eyebrow">Five little letters</div><h2>Open When…</h2>
+    <p class="section-intro">Tap an envelope whenever the moment feels right. Each one has a different message waiting for you.</p>
+    <div class="progress" id="progress" aria-live="polite">0 of 5 letters opened</div>
+  </div>
+  <div class="letters reveal">
+    <button class="letter" data-letter="smile"><div class="seal">😂</div><h3>When you need a smile</h3><small>Open me</small></button>
+    <button class="letter" data-letter="motivation"><div class="seal">🎯</div><h3>When you need motivation</h3><small>Open me</small></button>
+    <button class="letter" data-letter="bad"><div class="seal">💙</div><h3>When you're having a bad day</h3><small>Open me</small></button>
+    <button class="letter" data-letter="appreciated"><div class="seal">🥹</div><h3>When you need to know you're appreciated</h3><small>Open me</small></button>
+    <button class="letter birthday" data-letter="birthday"><div class="seal">🎂</div><h3>Open on your birthday</h3><small>Open me</small></button>
+  </div>
+</div></section>
+
+<section class="section"><div class="wrap">
+  <div class="center reveal"><div class="eyebrow">Little moments, big memories</div><h2>For the scrapbook</h2><p class="section-intro">Tap any photo to see it bigger.</p></div>
+  <div class="gallery reveal">
+    <button class="polaroid" data-zoom="images/suit.webp" data-alt="My brother in a charcoal suit, lost in thought by the window"><img src="images/suit.webp" alt="My brother in a charcoal suit, lost in thought by the window"><p>Classy, always ♥</p></button>
+    <div class="gallery-side">
+      <button class="polaroid r" data-zoom="images/baby.webp" data-alt="My brother smiling warmly at a little baby"><img src="images/baby.webp" alt="My brother smiling warmly at a little baby"><p>A kind heart.</p></button>
+      <button class="polaroid" data-zoom="images/portrait.webp" data-alt="My brother's portrait in a luxe lobby"><img src="images/portrait.webp" alt="My brother's portrait in a luxe lobby"><p>Keep shining.</p></button>
+    </div>
+  </div>
+</div></section>
+
+<section class="section"><div class="wrap">
+  <div class="center reveal"><div class="eyebrow">Just a few</div><h2>Why you're the best</h2></div>
+  <div class="reasons reveal">
+    <div class="reason"><b>You show up</b><span>Whenever it matters, you're there — quietly, reliably, without needing to be asked.</span></div>
+    <div class="reason"><b>You lead with heart</b><span>Strong on the outside, gentle with the little ones. That balance is rare.</span></div>
+    <div class="reason"><b>You inspire us</b><span>The way you work and carry yourself makes everyone around you want to do better.</span></div>
+  </div>
+</div></section>
+
+<section class="section"><div class="wrap"><div class="award reveal">
+  <div class="crown" aria-hidden="true">♛</div><div class="eyebrow">Awarded with love</div>
+  <h2>THE BROTHER OF THE YEAR</h2><h3>2026</h3>
+  <p>Happy Birthday, <span class="brotherName">Brother</span>! May Allah bless you with good health, happiness, success, peace, and countless beautiful moments. May this new year of your life bring barakah, ease, and everything good that is written for you. Keep shining. Always. ❤️</p>
+  <div class="sign">— <span id="fromName">Your sibling</span></div>
+  <button class="btn" id="celebrate">Celebrate 🎉</button>
+  <a class="btn" href="#top" id="replay" style="margin-left:8px">Replay the surprise ↟</a>
+</div></div></section>
+</main>
+<footer>Made with love ♥</footer>
+<button class="top" id="topBtn" aria-label="Back to top">↑</button>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-card"><button class="close" id="close" aria-label="Close">×</button>
+    <div id="modalEmoji" aria-hidden="true"></div><h3 id="modalTitle"></h3><img id="modalImg" alt=""><p id="modalText"></p><p class="ps" id="modalPs"></p></div>
+</div>
+<div class="modal lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <div class="modal-card"><button class="close" id="lbClose" aria-label="Close photo">×</button><img id="lbImg" alt=""></div>
+</div>
+<canvas id="confetti" aria-hidden="true"></canvas>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+$$(".brotherName").forEach(e=>e.textContent=CONFIG.brother);$("#fromName").textContent=CONFIG.from;
+
+const letters={
+smile:{e:"😂",t:"When you need a smile",p:"Life is way too short to take everything seriously. So here's your reminder: keep laughing, keep teasing, and keep being the person who can make an ordinary moment feel a little lighter. Same brother, different chapter… still the legend. ❤️",ps:"P.S. Look at the photo. Yes, that's the face of someone who's winning. Now smile.",i:"images/family.jpeg"},
+motivation:{e:"🎯",t:"When you need motivation",p:"Keep going. You've already come so far — don't stop before you see what you're capable of. May Allah put barakah in your efforts, guide you toward what is best, and give you the strength to keep moving forward. You've got this, bro.",ps:"P.S. Small steps still count. Do the next right thing.",i:"images/suit.webp"},
+bad:{e:"💙",t:"When you're having a bad day",p:"One bad day doesn't define your life. Take a breath, give yourself a little grace, and remember you don't have to figure everything out at once. Tough times don't last forever. May Allah make things easy for you and bring peace to your heart.",ps:"P.S. Call me. I'll listen — or I'll just annoy you until you laugh.",i:"images/portrait.webp"},
+appreciated:{e:"🥹",t:"When you need to know you're appreciated",p:"You're more than family — you're someone we genuinely value. Your kindness, strength, and the way you show up for the people around you matter more than you may realise. Thank you for being you. We're lucky to have you.",ps:"P.S. Even the little ones can tell you're a good one.",i:"images/baby.webp"},
+birthday:{e:"🎂",t:"Happy Birthday, "+CONFIG.brother+"!",p:"May Allah bless you with good health, happiness, success, peace, and countless beautiful moments. May this new year of your life bring barakah, ease, and everything good that is written for you. Keep shining. Always. ❤️",ps:"With all my love — "+CONFIG.from,i:"images/portrait.webp"}
+};
+
+/* confetti */
+const cv=$("#confetti"),cx=cv.getContext("2d");let parts=[],raf;
+function size(){cv.width=innerWidth*devicePixelRatio;cv.height=innerHeight*devicePixelRatio}size();addEventListener("resize",size);
+function burst(n=160){
+  if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+  const cols=["#d8b36a","#f6ecd9","#f7dc9b","#c08f2f","#ffffff"],d=devicePixelRatio;
+  for(let i=0;i<n;i++)parts.push({x:cv.width/2+(Math.random()-.5)*cv.width*.3,y:cv.height*.45,vx:(Math.random()-.5)*16*d,vy:(-Math.random()*16-4)*d,w:(5+Math.random()*6)*d,h:(8+Math.random()*8)*d,r:Math.random()*6,vr:(Math.random()-.5)*.4,c:cols[i%cols.length],life:0});
+  if(!raf)raf=requestAnimationFrame(tick);
+}
+function tick(){
+  cx.clearRect(0,0,cv.width,cv.height);
+  parts=parts.filter(p=>p.y<cv.height+40&&p.life<260);
+  parts.forEach(p=>{p.vy+=.35*devicePixelRatio;p.x+=p.vx;p.y+=p.vy;p.vx*=.992;p.r+=p.vr;p.life++;cx.save();cx.translate(p.x,p.y);cx.rotate(p.r);cx.fillStyle=p.c;cx.globalAlpha=Math.max(0,1-p.life/260);cx.fillRect(-p.w/2,-p.h/2,p.w,p.h);cx.restore()});
+  raf=parts.length?requestAnimationFrame(tick):null;if(!raf)cx.clearRect(0,0,cv.width,cv.height);
+}
+
+/* gate */
+function enter(){$("#gate").classList.add("gone");document.body.classList.remove("locked");burst(140);scrollTo(0,0)}
+$("#enter").onclick=enter;
+$("#replay").onclick=e=>{e.preventDefault();scrollTo({top:0});$("#gate").classList.remove("gone");document.body.classList.add("locked")};
+$("#celebrate").onclick=()=>{burst(220);setTimeout(()=>burst(120),350)};
+
+/* modals */
+let lastFocus=null,opened=new Set();
+function openModal(m,focusEl){lastFocus=document.activeElement;m.classList.add("show");document.body.classList.add("locked");focusEl.focus()}
+function closeAll(){["#modal","#lightbox"].forEach(s=>$(s).classList.remove("show"));document.body.classList.remove("locked");lastFocus&&lastFocus.focus()}
+$$(".letter").forEach(b=>b.addEventListener("click",()=>{
+  const k=b.dataset.letter,x=letters[k];
+  $("#modalEmoji").textContent=x.e;$("#modalTitle").textContent=x.t;$("#modalText").textContent=x.p;$("#modalPs").textContent=x.ps;
+  $("#modalImg").src=x.i;$("#modalImg").alt="";
+  openModal($("#modal"),$("#close"));
+  b.classList.add("opened");opened.add(k);$("#progress").textContent=opened.size===5?"All 5 letters opened 💛":opened.size+" of 5 letters opened";
+  if(k==="birthday")setTimeout(()=>burst(200),250);
+}));
+$$(".polaroid").forEach(b=>b.addEventListener("click",()=>{$("#lbImg").src=b.dataset.zoom;$("#lbImg").alt=b.dataset.alt;openModal($("#lightbox"),$("#lbClose"))}));
+$("#close").onclick=closeAll;$("#lbClose").onclick=closeAll;
+["#modal","#lightbox"].forEach(s=>$(s).addEventListener("click",e=>{if(e.target===$(s))closeAll()}));
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape")closeAll();
+  if(e.key==="Tab"){const m=document.querySelector(".modal.show");if(m){const f=[...m.querySelectorAll("button")];const a=f[0];e.preventDefault();a.focus()}}
+});
+
+/* scroll reveal + back to top */
+const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.add("in");io.unobserve(en.target)}}),{threshold:.12});
+$$(".reveal").forEach(el=>io.observe(el));
+const topBtn=$("#topBtn");addEventListener("scroll",()=>topBtn.style.display=scrollY>500?"block":"none");
+topBtn.onclick=()=>scrollTo({top:0,behavior:"smooth"});
+</script>
+</body></html>
